@@ -26,6 +26,7 @@ private slots:
     void ReloadButtonAction();
     void Search();
     void AfterLoad(QWebEnginePage* newPage);
+    void onTabSwitched(QWebEnginePage* newPage);
 
 signals:
     void StopLoad();
@@ -52,7 +53,7 @@ private:
     void resizeEvent(QResizeEvent* e) override;
 
     void UpdateInputDlg();
-
+    QString GetUrlText(QUrl url);
     const std::regex url_regex;
 
 

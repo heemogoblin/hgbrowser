@@ -17,12 +17,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     hgsidepanel.cpp \
+    hgusersettings.cpp \
     hgwebview.cpp \
     main.cpp \
     mainbrowserwindow.cpp
 
 HEADERS += \
     hgsidepanel.h \
+    hgusersettings.h \
     hgwebview.h \
     mainbrowserwindow.h
 
