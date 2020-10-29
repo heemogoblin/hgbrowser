@@ -54,7 +54,24 @@ private:
      * - When there are more than 5 pages, the page at the end of the list gets its
      *   url added to savedPages;
      */
+<<<<<<< HEAD:hgwebview.h
+<<<<<<< HEAD:src/hgwebview.h
+<<<<<<< HEAD:src/hgwebview.h
+    QWebEngineView* mainView;
+    QList<QWebEnginePage*> pageStore;
+<<<<<<< HEAD
+    uint32_t currentPageIndex;
+=======
     QWebEngineView* currentView;
+>>>>>>> parent of bcfc22f... Updated size & resizing to make customising easier:hgwebview.h
+=======
+>>>>>>> parent of 7a88008... yy
+=======
+    QWebEngineView* currentView;
+>>>>>>> parent of bcfc22f... Updated size & resizing to make customising easier:hgwebview.h
+=======
+    QWebEngineView* currentView;
+>>>>>>> parent of bcfc22f... Updated size & resizing to make customising easier:src/hgwebview.h
 };
 
 
