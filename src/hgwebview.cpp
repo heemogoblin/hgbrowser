@@ -7,7 +7,6 @@
 
 HGWebView::HGWebView(QWidget *parent) : QWidget(parent)
 {
-<<<<<<< HEAD
     mainView = new QTabWidget(this);
     mainView->resize(parent->size().width(), parent->size().height() - 22);
     currentView = new QWebEngineView;
@@ -25,7 +24,6 @@ HGWebView::HGWebView(QWidget *parent) : QWidget(parent)
     QObject::connect(currentView, SIGNAL (loadFinished(bool)), this, SLOT (onLoadFinished(bool)));
     QObject::connect(currentView, SIGNAL (loadProgress(int)), this, SLOT (onLoadProgress(int)));
     QObject::connect(currentView, SIGNAL (loadStarted()), this, SLOT (onLoadStarted()));
-=======
     pageTabs = new QTabBar(this);
     mainView = new QWebEngineView(this);
     mainView->setZoomFactor(DEFAULT_ZOOM_FACTOR);
