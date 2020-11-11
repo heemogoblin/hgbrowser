@@ -1,10 +1,6 @@
 #ifndef HGWEBVIEW_H
 #define HGWEBVIEW_H
 
-#define MAX_PAGES 5
-// To do:
-// - Constants, settings
-
 #include <QWidget>
 #include <QTabWidget>
 #include <QWebEngineView>
@@ -22,17 +18,16 @@ public:
     void addPage(QUrl url);
     ~HGWebView();
     void resize_window(int width, int height);
-    void setCurrentTabText(QString text);
-
 signals:
     void pageLoaded(QWebEnginePage* page);
-    void tabSwitched(QWebEnginePage* currentTab);
+    void tabSwitched(QWebEngineView* currentTab);
     void pageLoadProgress(int percent);
     void loadStarted();
 
 public slots:
     void back();
     void forward();
+    void setCurrentTabText(QString text);
 
 private slots:
     void onLoadProgress(int percent);
@@ -47,32 +42,8 @@ private:
     QTabWidget* mainView;
     QPushButton* newTabButton;
 
-    /* How the caching works:
-     * - Max 5 pages in the currentViews
-     * - When a page is added it is added to the top of the view
-     * - When a page is selected it is moved to the top
-     * - When there are more than 5 pages, the page at the end of the list gets its
-     *   url added to savedPages;
-     */
-<<<<<<< HEAD:hgwebview.h
-<<<<<<< HEAD:src/hgwebview.h
-<<<<<<< HEAD:src/hgwebview.h
-    QWebEngineView* mainView;
-    QList<QWebEnginePage*> pageStore;
-<<<<<<< HEAD
-    uint32_t currentPageIndex;
-=======
     QWebEngineView* currentView;
->>>>>>> parent of bcfc22f... Updated size & resizing to make customising easier:hgwebview.h
-=======
->>>>>>> parent of 7a88008... yy
-=======
-    QWebEngineView* currentView;
->>>>>>> parent of bcfc22f... Updated size & resizing to make customising easier:hgwebview.h
-=======
-    QWebEngineView* currentView;
->>>>>>> parent of bcfc22f... Updated size & resizing to make customising easier:src/hgwebview.h
+    bool tabsClosable = false;
 };
-
 
 #endif // HGWEBVIEW_H

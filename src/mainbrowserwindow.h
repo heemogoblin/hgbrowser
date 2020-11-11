@@ -11,7 +11,6 @@
 #include <regex>
 
 #include "hgwebview.h"
-#include "hgsidepanel.h"
 
 class MainBrowserWindow : public QMainWindow
 {
@@ -26,7 +25,7 @@ private slots:
     void ReloadButtonAction();
     void Search();
     void AfterLoad(QWebEnginePage* newPage);
-    void onTabSwitched(QWebEnginePage* newPage);
+    void TabSwitched(QWebEngineView* newTab);
 
 signals:
     void StopLoad();
@@ -34,7 +33,6 @@ signals:
 
 private:
     HGWebView* view;
-    HGSidePanel* sidePanel;
     QLineEdit* inputBar;
     QLineEdit* searchBar;
     QPushButton* goButton;
@@ -53,7 +51,7 @@ private:
     void resizeEvent(QResizeEvent* e) override;
 
     void UpdateInputDlg();
-    QString GetUrlText(QUrl url);
+
     const std::regex url_regex;
 
 

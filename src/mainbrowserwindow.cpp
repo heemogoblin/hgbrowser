@@ -4,7 +4,6 @@
 
 #define EDGE_SIZE 20
 #define HOME_PAGE "https://www.google.com/"
-#define SIDEBAR_REQUEST 0.15
 
 /*What to do next:
  *
@@ -31,24 +30,24 @@ MainBrowserWindow::MainBrowserWindow(QWidget *parent)
     menu = new QMenu(this);
     searchBar = new QLineEdit(this);
     searchButton = new QPushButton(this);
-    sidePanel = new HGSidePanel(this);
 
     inputBar->move(60, 0);
     inputBar->setText(HOME_PAGE);
     goButton->resize(EDGE_SIZE, EDGE_SIZE);
-    goButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\arrowright.png"));
+    goButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\data\\arrowright.png"));
     backButton->resize(EDGE_SIZE, EDGE_SIZE);
-    backButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\arrowleft.png"));
+    backButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\data\\arrowleft.png"));
     forwardButton->resize(EDGE_SIZE, EDGE_SIZE);
-    forwardButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\arrowright.png"));
+    forwardButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\data\\arrowright.png"));
     homeButton->resize(EDGE_SIZE, EDGE_SIZE);
-    homeButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\home.jpg"));
+    homeButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\data\\home.jpg"));
     loadButton->resize(EDGE_SIZE, EDGE_SIZE);
-    loadButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\reload.png"));
+    loadButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\data\\reload.png"));
     //Set up menu before the menu button
     menu->addAction("Poo");
     menuButton->resize(EDGE_SIZE, EDGE_SIZE);
-    menuButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\menu.png"));
+    menuButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\data\\menu.png"));
+    /* To do: add executable directory variable */
     menuButton->setMenu(menu);
     progressBar->setRange(0, 100);
     progressBar->move(0, EDGE_SIZE);
@@ -56,7 +55,7 @@ MainBrowserWindow::MainBrowserWindow(QWidget *parent)
     searchBar->setText("Google search");
     searchBar->resize(100, EDGE_SIZE);
     searchButton->resize(EDGE_SIZE, EDGE_SIZE);
-    searchButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\search.png"));
+    searchButton->setIcon(QIcon("C:\\Users\\artyo\\Documents\\HGBrowser\\1.0\\data\\search.png"));
     view->loadPage(QUrl(HOME_PAGE));
     view->move(0, 22);
     ResizeView();
@@ -69,7 +68,7 @@ MainBrowserWindow::MainBrowserWindow(QWidget *parent)
     QObject::connect(view, SIGNAL (pageLoaded(QWebEnginePage*)), this, SLOT (AfterLoad(QWebEnginePage*)));
     QObject::connect(view, SIGNAL (pageLoadProgress(int)), progressBar, SLOT (setValue(int)));
     QObject::connect(view, SIGNAL (loadStarted()), this, SLOT (StartLoad()));
-    QObject::connect(view, SIGNAL (tabSwitched(QWebEnginePage*)), SLOT (onTabSwitched(QWebEnginePage*)));
+    QObject::connect(view, SIGNAL (tabSwitched(QWebEngineView*)), this, SLOT (TabSwitched(QWebEngineView*)));
     QObject::connect(loadButton, SIGNAL (clicked()), this, SLOT (ReloadButtonAction()));
     //QObject::connect(searchBar, SIGNAL (returnPressed()), this, SLOT (SearchGoogle()));
     //QObject::connect(searchButton, SIGNAL (clicked()), this, SLOT (SearchGoogle()));
@@ -77,9 +76,9 @@ MainBrowserWindow::MainBrowserWindow(QWidget *parent)
 
 void MainBrowserWindow::ResizeView(){
     QSize currentSize = size();
-    view->resize_window(currentSize.width() * (1 - SIDEBAR_REQUEST), currentSize.height());
+    view->resize_window(currentSize.width() * 0.8, currentSize.height());
     resize(currentSize.width(), currentSize.height());
-    view->resize(currentSize.width() * (1 - SIDEBAR_REQUEST), currentSize.height() - EDGE_SIZE - 2);
+    view->resize(currentSize.width() * 0.8, currentSize.height() - EDGE_SIZE - 2);
     progressBar->resize(currentSize.width(), 2);
     inputBar->resize(currentSize.width() - 240, EDGE_SIZE);
     backButton->move(0, 0);
@@ -90,8 +89,6 @@ void MainBrowserWindow::ResizeView(){
     searchButton->move(currentSize.width() - 60, 0);
     searchBar->move(currentSize.width() - 160, 0);
     goButton->move(currentSize.width() - 180, 0);
-    sidePanel->move(size().width() - size().width() * SIDEBAR_REQUEST, 22);
-    sidePanel->resize(size().width() * SIDEBAR_REQUEST, size().height() - 22);
 }
 
 void MainBrowserWindow::LoadPage()
@@ -121,12 +118,12 @@ void MainBrowserWindow::StartLoad()
 void MainBrowserWindow::AfterLoad(QWebEnginePage* newPage)
 {
     pageLoaded = true;
-    view->setCurrentTabText(GetUrlText(newPage->url()));
-    onTabSwitched(view->currentPage());
+    inputBar->setText(newPage->url().toEncoded());
 }
 
 void MainBrowserWindow::resizeEvent(QResizeEvent* e)
 {
+    QMainWindow::resizeEvent(e);
     ResizeView();
 }
 
@@ -135,18 +132,7 @@ void MainBrowserWindow::Search()
 
 }
 
-void MainBrowserWindow::onTabSwitched(QWebEnginePage* newPage)
+void MainBrowserWindow::TabSwitched(QWebEngineView* newTab)
 {
-    inputBar->setText(newPage->url().toEncoded());
-}
-
-QString MainBrowserWindow::GetUrlText(QUrl url)
-{
-    if (url.toEncoded().size() > 27)
-    {
-        QString ns = url.toEncoded();
-        ns.truncate(27);
-        return ns + "...";
-    }
-    return url.toEncoded();
+    inputBar->setText(newTab->page()->url().toEncoded());
 }

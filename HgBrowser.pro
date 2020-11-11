@@ -16,30 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-<<<<<<< HEAD
-<<<<<<< HEAD
     src/hgwebview.cpp \
     src/main.cpp \
     src/mainbrowserwindow.cpp \
-    src/HGUserConstants.cpp
 
 HEADERS += \
-    hgdownloadview.cpp \
-=======
->>>>>>> parent of bcfc22f... Updated size & resizing to make customising easier
-=======
->>>>>>> parent of bcfc22f... Updated size & resizing to make customising easier
-    hgsidepanel.cpp \
-    hgusersettings.cpp \
-    hgwebview.cpp \
-    main.cpp \
-    mainbrowserwindow.cpp
+    src/hgwebview.h \
+    src/mainbrowserwindow.h
 
-HEADERS += \
-    hgsidepanel.h \
-    hgusersettings.h \
-    hgwebview.h \
-    mainbrowserwindow.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
